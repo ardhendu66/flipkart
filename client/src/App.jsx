@@ -1,9 +1,7 @@
-
+import Home from "./pages/Home"
 
 export default () => {
   return (
-    <div>
-      Test
-    </div>
+    <Home/>
   )
 }
