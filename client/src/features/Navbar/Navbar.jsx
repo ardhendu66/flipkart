@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon, ShoppingCartIcon } from '@heroicons/react/24/outline'
+import { NavLink } from 'react-router-dom'
 
 const user = {
   name: 'Ardhendu Roy',
@@ -63,13 +64,15 @@ export default function({Children}) {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
-                      <button
-                        type="button"
-                        className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                      >
-                        <span className="absolute -inset-1.5" />
-                        <ShoppingCartIcon className="h-8 w-8 z-0" aria-hidden="true" />
-                      </button>
+                      <NavLink to={'/cart'}>
+                        <button
+                          type="button"
+                          className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                        >
+                          <span className="absolute -inset-1.5" />
+                          <ShoppingCartIcon className="h-8 w-8 z-0" aria-hidden="true" />
+                        </button>
+                      </NavLink>
                       <span className='flex items-center justify-center w-5 h-5 border bg-slate-300 text-black rounded-full mb-5 -ml-3 z-10'>3</span>
 
                       {/* Profile dropdown */}
