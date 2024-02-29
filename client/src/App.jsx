@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage"
 import SignupPage from "./pages/SignupPage"
 import CartPage from "./pages/CartPage"
 import Checkout from "./pages/Checkout"
-import ProductDetails from "./features/Product/ProductDetail/ProductDetails"
+import SingleProduct from "./pages/SingleProduct"
 
 const router = createBrowserRouter([
   {
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/product',
-    element: <ProductDetails />
+    element: <SingleProduct />
   },
   {
     path: '/*',
