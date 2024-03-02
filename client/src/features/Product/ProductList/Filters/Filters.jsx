@@ -1,6 +1,6 @@
 import { Disclosure } from "@headlessui/react"
 import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid"
-import { filters } from "./productData"
+import { filters } from "../productData"
 
 export default () => {
     return (

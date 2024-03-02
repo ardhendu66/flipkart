@@ -2,7 +2,7 @@ import { Fragment } from "react"
 import { Dialog, Disclosure, Transition } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid"
-import { filters } from "./productData"
+import { filters } from "../productData"
 
 export default ({mobileFiltersOpen, setMobileFiltersOpen}) => {
     return (

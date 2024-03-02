@@ -1,8 +1,8 @@
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { Fragment } from "react"
 import { Menu, Transition } from "@headlessui/react"
-import { sortOptions } from "./productData"
-import { classNames } from "./productData"
+import { sortOptions } from "../productData"
+import { classNames } from "../productData"
 
 export default () => {
     return (

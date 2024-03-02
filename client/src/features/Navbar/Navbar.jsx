@@ -25,7 +25,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function({Children}) {
+export default function ({ Children }) {
   return (
     <>
       <div className="min-h-full">
@@ -36,18 +36,20 @@ export default function({Children}) {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <img
-                        className="h-8 w-8"
-                        src="/vite.svg"
-                        alt="Your Company"
-                      />
+                      <NavLink to={'/'}>
+                        <img
+                          className="h-8 w-8"
+                          src="/vite.svg"
+                          alt="Your Company"
+                        />
+                      </NavLink>
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
-                        {navigation.map((item) => (
-                          <a
+                        {navigation.map(item => (
+                          <NavLink
                             key={item.name}
-                            href={item.href}
+                            to={item.href}
                             className={classNames(
                               item.current
                                 ? 'bg-gray-900 text-white'
@@ -57,7 +59,7 @@ export default function({Children}) {
                             aria-current={item.current ? 'page' : undefined}
                           >
                             {item.name}
-                          </a>
+                          </NavLink>
                         ))}
                       </div>
                     </div>
@@ -190,7 +192,7 @@ export default function({Children}) {
                 </h1>
             </div>
         </header> */}
-        
+
         {/* <main>
             <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                 {Children}

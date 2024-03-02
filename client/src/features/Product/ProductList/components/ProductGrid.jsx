@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom"
-import { products } from "./productData"
+import { products } from "../productData"
 import { StarIcon } from "@heroicons/react/20/solid"
 
 export default function() {
@@ -14,10 +14,10 @@ export default function() {
                             <NavLink to={'/product'} key={product.id}>
                                 <div 
                                     key={product.id} 
-                                    className="group relative shadow-xl p-2 rounded-md border-solid border border-gray-400"
+                                    className="group relative shadow-xl p-2 rounded-md border-solid border border-gray-300"
                                 >
                                     <div 
-                                        className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-sm bg-gray-300 lg:aspect-none group-hover:opacity-75 lg:h-80"
+                                        className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-sm bg-gray-300 lg:aspect-none group-hover:opacity-75 lg:h-52 sm:h-60 max-sm:h-80"
                                     >
                                         <img
                                             src={product.thumbnail}
@@ -25,6 +25,7 @@ export default function() {
                                             className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                                         />
                                     </div>
+                                    <hr className="mt-2 border-t-[1.6px]" />
                                     <div className="mt-4 flex justify-between">
                                         <div>
                                             <h3 className="text-sm font-semibold text-gray-700">
@@ -57,8 +58,10 @@ export default function() {
                                             <span>
                                                 ₹{
                                                     Math.floor(
-                                                    product.price*(1-product.discountPercentage/100)
-                                                    ) + 1
+                                                        product.price * (
+                                                            1 - 0.01*product.discountPercentage
+                                                        )
+                                                    )
                                                 }
                                             </span>
                                         </div>

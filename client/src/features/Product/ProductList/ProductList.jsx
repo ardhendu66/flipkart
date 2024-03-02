@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { FunnelIcon, Squares2X2Icon } from "@heroicons/react/20/solid"
-import ProductGrid from "./ProductGrid"
-import MobileFilterPanel from "./MobileFilterPanel"
-import Filters from "./Filters"
-import SortFunctionality from "./SortFunctionality"
-import Pagination from "./Pagination"
+import ProductGrid from "./components/ProductGrid"
+import MobileFilterPanel from "./Filters/MobileFilterPanel"
+import Filters from "./Filters/Filters"
+import SortFunctionality from "./components/SortFunctionality"
+import Pagination from "./components/Pagination"
 
 export default () => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)

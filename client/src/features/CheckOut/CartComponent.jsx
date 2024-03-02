@@ -6,7 +6,7 @@ export default function() {
         <div
             className="mx-auto max-w-3xl px-8 pt-3 pb-6 sm:px-16 lg:px-10 shadow-lg rounded-md bg-white mt-12 w-full"
         >
-            <h2 className="text-center text-3xl tracking-wide mt-4 font-semibold">
+            <h2 className="text-center text-3xl tracking-wide lg:mt-4 font-semibold max-lg:mt-8 font-serif">
                 Cart
             </h2>
             <div className="mt-8">
