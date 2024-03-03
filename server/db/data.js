@@ -17,7 +17,7 @@ const products = [
             "https://cdn.dummyjson.com/product-images/1/3.jpg",
             "https://cdn.dummyjson.com/product-images/1/4.jpg",
             "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-        ],
+        ]
     },
     {
         id: 2,

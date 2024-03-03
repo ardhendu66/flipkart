@@ -4,10 +4,9 @@ const { connectMongoDB } = require('./db/dbConfig')
 const { Products } = require('./model/productSchema')
 const { products } = require('./db/data')
 
-app.get('/', async (req, res) => {
-    // await Products.insertMany(products)
-    // res.json(Products.find({}))
-    res.json("hello")
+app.post('/products', async (req, res) => {
+    const pro = await Products.insertMany(products)
+    res.json(pro)
 })
 
 app.listen(3000, () => {

@@ -12,7 +12,9 @@ const productSchema = new mongoose.Schema({
     category: String,
     altImage: String,
     thumbnail: String,
-    images: Array(String)
+    images: [{
+        type: String
+    }]
 })
 
 const Products = mongoose.model('products', productSchema)
