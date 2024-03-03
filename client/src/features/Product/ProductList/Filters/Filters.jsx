@@ -1,8 +1,21 @@
+import { useState } from "react"
+import { useDispatch } from "react-redux"
 import { Disclosure } from "@headlessui/react"
 import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid"
 import { filters } from "../productData"
+import { fetchProductsByFilterAsync } from "../../productListSlice"
 
 export default () => {
+    const dispatch = useDispatch()
+    const [filter, setFilter] = useState({})
+
+    const handleFilter = (section, option) => {
+        let newFilter = {...filter, [section.id]: option.value}
+        setFilter(prev => ({...prev, ...newFilter}))
+        console.log("Filter: ", filter);
+        dispatch(fetchProductsByFilterAsync(filter))
+    }
+
     return (
         <>
             {filters.map((section) => (
@@ -47,6 +60,7 @@ export default () => {
                                                 type="checkbox"
                                                 defaultChecked={option.checked}
                                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                onClick={event => handleFilter(section, option)}
                                             />
                                             <label
                                                 htmlFor={`filter-${section.id}-${optionIdx}`}

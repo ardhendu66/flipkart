@@ -1,7 +1,7 @@
 import { product } from "./productData"
 import { reviews } from "./productData"
 import BreadCrumb from './components/BreadCrumb'
-import ImageGallery from './componentsImageGallery'
+import ImageGallery from './components/ImageGallery'
 import Reviews from './Info/Reviews'
 import Colors from './Info/Colors'
 import Sizes from './Info/Sizes'
