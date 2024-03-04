@@ -1,21 +1,9 @@
-import { useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
 import { StarIcon } from "@heroicons/react/20/solid"
-import { selectAllProducts, fetchProductsAsync, getProductsStatus } from "../../productListSlice"
+import { selectAllProducts, getProductsStatus } from "../../productListSlice"
 
-export default function () {
-    const dispatch = useDispatch()
-    const [products] = useSelector(selectAllProducts)
-    const status = useSelector(getProductsStatus)
-
-    useEffect(() => {
-        if (status === 'idle') {
-            dispatch(fetchProductsAsync())
-        }
-    }, [dispatch, status])
-
-
+export default function ({status, products}) {
     return (
         <>
             {

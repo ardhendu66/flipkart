@@ -19,6 +19,7 @@ export const fetchProductsByFilter = async (filters) => {
     }
 
     queryString = queryString.replaceAll(" ", "+").substring(0, queryString.length - 1)
+    console.log(queryString)
 
     try {
         const response = await axios.get(`${productsBaseUrl}?${queryString}`)

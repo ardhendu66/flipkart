@@ -4,7 +4,7 @@ import { Menu, Transition } from "@headlessui/react"
 import { sortOptions } from "../productData"
 import { classNames } from "../productData"
 
-export default () => {
+export default ({handleSort}) => {
     return (
         <Menu as="div" className="relative inline-block text-left">
             <div>
@@ -18,13 +18,12 @@ export default () => {
                     />
                 </Menu.Button>
             </div>
-            <SortOptions />
+            <SortOptions handleSort={handleSort} />
         </Menu>
     )
 }
 
-
-function SortOptions() {
+const SortOptions = ({handleSort}) => {
     return (
         <Transition
             as={Fragment}
@@ -43,7 +42,8 @@ function SortOptions() {
                         <Menu.Item key={option.name}>
                             {
                                 ({active}) => (
-                                    <a  href={option.href}
+                                    <p 
+                                        onClick={() => handleSort(option)}
                                         className={classNames(
                                             option.current
                                                 ?
@@ -57,7 +57,7 @@ function SortOptions() {
                                             "",
                                             "block px-4 py-2 text-sm"
                                         )}
-                                    > {option.name} </a>
+                                    > {option.name} </p>
                                 )
                             }
                         </Menu.Item>
