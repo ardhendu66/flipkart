@@ -1,15 +1,18 @@
 import axios from "axios"
 
-const productsBaseUrl = 'http://localhost:4000/products'
+const productsBaseUrl = 'http://localhost:3000/products'
 
-export const fetchProducts = () => {
-    return new Promise(async (resolve) => {
+export const fetchProducts = async () => {
+    try {
         const response = await axios.get(productsBaseUrl)
-        resolve(response.data)
-    })
+        return(response.data)
+    }
+    catch(err) {
+        return err.message
+    }
 }
 
-export const fetchProductsByFilter = (filters) => {
+export const fetchProductsByFilter = async (filters) => {
     let queryString = ''
     for(let key in filters) {
         queryString += `${key}=${filters[key]}&`
@@ -17,10 +20,13 @@ export const fetchProductsByFilter = (filters) => {
 
     queryString = queryString.replaceAll(" ", "+").substring(0, queryString.length - 1)
 
-    return new Promise(async (resolve) => {
+    try {
         const response = await axios.get(`${productsBaseUrl}?${queryString}`)
         console.log(`${productsBaseUrl}?${queryString}`)
         console.log("API: ", response.data)
         return response.data
-    })
+    }
+    catch(err) {
+        return err.message
+    }
 }
