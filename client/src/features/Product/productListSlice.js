@@ -35,7 +35,12 @@ const productSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchProductsAsync.pending, function(state) {
+        builder.addCase(fetchProductsByFilterAsync.fulfilled, function(state, actions) {
+            state.product = []
+            console.log("actions: ", actions.payload)
+            state.product.push(actions.payload)
+        })
+        .addCase(fetchProductsAsync.pending, function(state) {
             state.status = 'loading'
         })
         .addCase(fetchProductsAsync.fulfilled, function(state, actions) {
@@ -44,11 +49,6 @@ const productSlice = createSlice({
         })
         .addCase(fetchProductsAsync.rejected, function(state, actions) {
             state.status = 'failed'
-        })
-        .addCase(fetchProductsByFilterAsync.fulfilled, function(state, actions) {
-            state.product = []
-            console.log("actions: ", actions.payload)
-            state.product.push(actions.payload)
         })
     }
 })
