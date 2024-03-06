@@ -13,6 +13,7 @@ import {
 import { filters, classNames, sortOptions } from "./productData"
 
 export default () => {
+    const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [filter, setFilter] = useState({})
     const dispatch = useDispatch()
     const [products] = useSelector(selectAllProducts)
@@ -25,8 +26,10 @@ export default () => {
     }, [dispatch, status])
 
     const handleFilter = (filterName, option) => {
-        let newFilter = {...filter, [filterName.id]: option.value}
-        setFilter(prev => ({...prev, ...newFilter}))
+        // event.preventDefault()
+        // let newFilter = {...filter, [filterName.id]: option.value}
+        console.log(event.target.checked)
+        setFilter(prev => ({...prev, ...{[filterName.id]: option.value}}))
         dispatch(fetchProductsByFilterAsync(filter))
     }
 
@@ -42,6 +45,7 @@ export default () => {
                 <MobileFilterPanel
                     mobileFiltersOpen={mobileFiltersOpen}
                     setMobileFiltersOpen={setMobileFiltersOpen}
+                    handleFilter={handleFilter}
                 />
 
                 <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -84,7 +88,7 @@ export default () => {
     )
 }
 
-const MobileFilterPanel = ({mobileFiltersOpen, setMobileFiltersOpen}) => {
+const MobileFilterPanel = ({mobileFiltersOpen, setMobileFiltersOpen, handleFilter}) => {
 
     return (
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
@@ -135,10 +139,10 @@ const MobileFilterPanel = ({mobileFiltersOpen, setMobileFiltersOpen}) => {
                             {/* Filters */}
                             <form className="mt-4 border-t border-gray-200">
                                 <h3 className="sr-only">Categories</h3>
-                                {filters.map((section) => (
+                                {filters.map((filterName) => (
                                     <Disclosure
                                         as="div"
-                                        key={section.id}
+                                        key={filterName.id}
                                         className="border-t border-gray-200 px-4 py-6"
                                     >
                                         {({ open }) => (
@@ -148,7 +152,7 @@ const MobileFilterPanel = ({mobileFiltersOpen, setMobileFiltersOpen}) => {
                                                     className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500"
                                                 >
                                                     <span className="font-medium text-gray-900">
-                                                        {section.name}
+                                                        {filterName.name}
                                                     </span>
                                                     <span className="ml-6 flex items-center">
                                                         {open ? (
@@ -167,21 +171,22 @@ const MobileFilterPanel = ({mobileFiltersOpen, setMobileFiltersOpen}) => {
                                             </h3>
                                             <Disclosure.Panel className="pt-6">
                                                 <div className="space-y-6">
-                                                    {section.options.map((option, optionIdx) => (
+                                                    {filterName.options.map((option, optionIdx) => (
                                                         <div
                                                             key={option.value}
                                                             className="flex items-center"
                                                         >
                                                             <input
-                                                                id={`filter-mobile-${section.id}-${optionIdx}`}
-                                                                name={`${section.id}[]`}
+                                                                id={`filter-mobile-${filterName.id}-${optionIdx}`}
+                                                                name={`${filterName.id}[]`}
                                                                 defaultValue={option.value}
                                                                 type="checkbox"
                                                                 defaultChecked={option.checked}
                                                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                                onClick={() => handleFilter(filterName, option)}
                                                             />
                                                             <label
-                                                            htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
+                                                            htmlFor={`filter-mobile-${filterName.id}-${optionIdx}`}
                                                             className="ml-3 min-w-0 flex-1 text-gray-500"
                                                             >
                                                             {option.label}
@@ -248,7 +253,7 @@ const DesktopFilters = ({handleFilter}) => {
                                                 type="checkbox"
                                                 defaultChecked={option.checked}
                                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                                onClick={event => handleFilter(filterName, option)}
+                                                onClick={() => handleFilter(filterName, option)}
                                             />
                                             <label
                                                 htmlFor={`filter-${filterName.id}-${optionIdx}`}
@@ -280,8 +285,8 @@ const ProductGrid = ({status, products}) => {
                             <div
                                 className="sm:-mt-16 max-sm:mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8"
                             >
-                                {/* {products && products.map(e => {})} */}
-                                {products?.map(product => (
+                                {/* {products?.map(product => ( */}
+                                {products && products.map(product => (
                                     <NavLink to={'/product'} key={product.id}>
                                         <div
                                             key={product.id}

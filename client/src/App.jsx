@@ -5,11 +5,16 @@ import SignupPage from "./pages/SignupPage"
 import CartPage from "./pages/CartPage"
 import Checkout from "./pages/Checkout"
 import SingleProduct from "./pages/SingleProduct"
+import Navbar from "./features/Navbar/Navbar"
+import ProductList from "./features/Product/ProductList/ProductList"
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <>
+      <Navbar />
+      <ProductList />
+    </>,
   },
   {
     path: '/login',

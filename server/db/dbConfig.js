@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
+const mongoUrl = process.env.MONGO_URI
 
 function connectMongoDB() {
-    mongoose.connect('mongodb://127.0.0.1:27017/Flipkart')
+    mongoose.connect(mongoUrl)
     .then(response => console.log('database connected'))
     .catch(err => console.error(err.message))
 }

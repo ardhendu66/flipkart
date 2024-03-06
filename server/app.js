@@ -1,15 +1,18 @@
 const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+require('dotenv').config()
 const app = express()
 const { connectMongoDB } = require('./db/dbConfig')
-const { Products } = require('./model/productSchema')
-const { products } = require('./db/data')
+const port = process.env.PORT || 4000
 
-app.post('/products', async (req, res) => {
-    const pro = await Products.insertMany(products)
-    res.json(pro)
-})
+app.use(express.json())
+app.use(bodyParser.json())
+app.use(cors())
 
-app.listen(3000, () => {
+app.use('/products', require('./routes/Products'))
+
+app.listen(port, () => {
     connectMongoDB()
-    console.log('Server running... http://localhost:3000')
+    console.log(`Server running... http://localhost:${port}`)
 })
