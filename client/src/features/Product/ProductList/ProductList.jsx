@@ -4,25 +4,29 @@ import { Dialog, Disclosure, Transition, Menu } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { MinusIcon, PlusIcon, FunnelIcon, StarIcon, ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, Squares2X2Icon } from "@heroicons/react/20/solid"
 import { filters, classNames, sortOptions } from "./productData"
-import { useGetProductsQuery } from "../api/apiSlice"
+import { useGetProductsQuery, useFilterProductsQuery } from "../api/apiSlice"
 
 export default () => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [filter, setFilter] = useState({})
-    const {data: products, isLoading, isError, isSuccess, error } = useGetProductsQuery()
+    let {data: products, isLoading, isError, isSuccess, error } = useGetProductsQuery()
+    let {data: filteredProducts} = useFilterProductsQuery()
+
+    if(filteredProducts) {
+        products = filteredProducts
+        console.log(filteredProducts)
+    }
 
     const handleFilter = (filterName, option) => {
-        // event.preventDefault()
-        // let newFilter = {...filter, [filterName.id]: option.value}
         console.log(event.target.checked)
         setFilter(prev => ({...prev, ...{[filterName.id]: option.value}}))
+        console.log(filter)
     }
 
     const handleSort = (option) => {
         let newFilter = {...filter, _sort: option.sort,}
         setFilter(newFilter)
     }
-
 
     if(isError) {
         return <div>{error}</div>
@@ -275,67 +279,69 @@ const ProductGrid = ({products}) => {
                                 className="sm:-mt-16 max-sm:mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8"
                             >
                                 {/* {products?.map(product => ( */}
-                                {products && products.map(product => (
-                                    <NavLink to={'/product'} key={product.id}>
-                                        <div
-                                            key={product.id}
-                                            className="group relative shadow-xl p-2 rounded-md border-solid border border-gray-300"
-                                        >
+                                {
+                                    products && products.map(product => (
+                                        <NavLink to={'/product'} key={product.id}>
                                             <div
-                                                className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-sm bg-gray-300 lg:aspect-none group-hover:opacity-75 lg:h-52 sm:h-60 max-sm:h-80"
+                                                key={product.id}
+                                                className="group relative shadow-xl p-2 rounded-md border-solid border border-gray-300"
                                             >
-                                                <img
-                                                    src={product.thumbnail}
-                                                    alt={product.altImage}
-                                                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                                                />
-                                            </div>
-                                            <hr className="mt-2 border-t-[1.6px]" />
-                                            <div className="mt-4 flex justify-between">
-                                                <div>
-                                                    <h3 className="text-sm font-semibold text-gray-700">
-                                                        <span
-                                                            aria-hidden="true"
-                                                            className="absolute inset-0"
-                                                        />
-                                                        {product.title}
-
-                                                        {/*
-                                                            <NavLink to={'/product'}
-                                                                // href={product.href}>
-                                                            </NavLink>
-                                                        */}
-
-                                                    </h3>
-                                                    <p
-                                                        className="mt-1 text-sm text-gray-500 flex justify-start items-center"
-                                                    >
-                                                        <StarIcon
-                                                            className='w-4 h-4 mr-1 text-yellow-500'
-                                                        />
-                                                        {product.rating}
-                                                    </p>
-                                                </div>
                                                 <div
-                                                    className="flex flex-col text-sm font-medium text-gray-900"
+                                                    className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-sm bg-gray-300 lg:aspect-none group-hover:opacity-75 lg:h-52 sm:h-60 max-sm:h-80"
                                                 >
-                                                    <span className="line-through text-gray-500">
-                                                        ₹{product.price}
-                                                    </span>
-                                                    <span>
-                                                        ₹{
-                                                            Math.floor(
-                                                                product.price * (
-                                                                    1 - 0.01 * product.discountPercentage
+                                                    <img
+                                                        src={product.thumbnail}
+                                                        alt={product.altImage}
+                                                        className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                                                    />
+                                                </div>
+                                                <hr className="mt-2 border-t-[1.6px]" />
+                                                <div className="mt-4 flex justify-between">
+                                                    <div>
+                                                        <h3 className="text-sm font-semibold text-gray-700">
+                                                            <span
+                                                                aria-hidden="true"
+                                                                className="absolute inset-0"
+                                                            />
+                                                            {product.title}
+
+                                                            {/*
+                                                                <NavLink to={'/product'}
+                                                                    // href={product.href}>
+                                                                </NavLink>
+                                                            */}
+
+                                                        </h3>
+                                                        <p
+                                                            className="mt-1 text-sm text-gray-500 flex justify-start items-center"
+                                                        >
+                                                            <StarIcon
+                                                                className='w-4 h-4 mr-1 text-yellow-500'
+                                                            />
+                                                            {product.rating}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        className="flex flex-col text-sm font-medium text-gray-900"
+                                                    >
+                                                        <span className="line-through text-gray-500">
+                                                            ₹{product.price}
+                                                        </span>
+                                                        <span>
+                                                            ₹{
+                                                                Math.floor(
+                                                                    product.price * (
+                                                                        1 - 0.01 * product.discountPercentage
+                                                                    )
                                                                 )
-                                                            )
-                                                        }
-                                                    </span>
+                                                            }
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </NavLink>
-                                ))}
+                                        </NavLink>
+                                    ))
+                                }
                             </div>
                         </div>
                     </div>
