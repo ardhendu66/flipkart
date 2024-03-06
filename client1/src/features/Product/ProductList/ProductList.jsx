@@ -1,102 +1,82 @@
-import { useState, useEffect, Fragment } from "react"
+import { useState, Fragment } from "react"
 import { NavLink } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux"
 import { Dialog, Disclosure, Transition, Menu } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { MinusIcon, PlusIcon, FunnelIcon, StarIcon, ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, Squares2X2Icon } from "@heroicons/react/20/solid"
-import { 
-    selectAllProducts, 
-    fetchProductsAsync, 
-    getProductsStatus, 
-    fetchProductsByFilterAsync 
-} from "../productListSlice"
 import { filters, classNames, sortOptions } from "./productData"
-import { useGetProductsQuery } from "../apiSlice"
+import { useGetProductsQuery } from "../api/apiSlice"
 
 export default () => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [filter, setFilter] = useState({})
-    // const dispatch = useDispatch()
-    // const [products] = useSelector(selectAllProducts)
-    // const status = useSelector(getProductsStatus)
     const {data: products, isLoading, isError, isSuccess, error } = useGetProductsQuery()
-
-    // useEffect(() => {
-    //     if (status === 'idle') {
-    //         dispatch(fetchProductsAsync())
-    //     }
-    // }, [dispatch, status])
 
     const handleFilter = (filterName, option) => {
         // event.preventDefault()
         // let newFilter = {...filter, [filterName.id]: option.value}
         console.log(event.target.checked)
         setFilter(prev => ({...prev, ...{[filterName.id]: option.value}}))
-        // dispatch(fetchProductsByFilterAsync(filter))
     }
 
     const handleSort = (option) => {
         let newFilter = {...filter, _sort: option.sort,}
         setFilter(newFilter)
-        // dispatch(fetchProductsByFilterAsync(filter))
     }
 
-    if(isSuccess) {
-        return (
-            <div className="bg-white mt-16">
-                <div>
-                    <MobileFilterPanel
-                        mobileFiltersOpen={mobileFiltersOpen}
-                        setMobileFiltersOpen={setMobileFiltersOpen}
-                        handleFilter={handleFilter}
-                    />
 
-                    <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <div 
-                            className="flex items-baseline justify-between border-b border-gray-200 pb-6"
-                        >
-                            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-                                All Products
-                            </h1>
-                            <div className="flex items-center">
-                                <SortFunctionality handleSort={handleSort} />
-                                <ViewGrid />
-                                <FunnelFilteringButton setMobileFiltersOpen={setMobileFiltersOpen} />
-                            </div>
-                        </div>
-
-                        <section aria-labelledby="products-heading" className="pb-24 pt-6">
-                            <h2 id="products-heading" className="sr-only">
-                                Products
-                            </h2>
-
-                            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-                                {/* Filters */}
-                                <form className="hidden lg:block">
-                                    <h3 className="sr-only">Categories</h3>
-                                    <DesktopFilters handleFilter={handleFilter} />
-                                </form>
-
-                                {/* Product grid */}
-                                <ProductGrid
-                                    // status={status}
-                                    status={''}
-                                    products={products}
-                                />
-                            </div>
-                        </section>
-                    </main>
-                </div>
-                <Pagination />
-            </div>
-        )
-    }
-    else if(isError) {
+    if(isError) {
         return <div>{error}</div>
     }
     else if(isLoading) {
         return <div>loading...</div>
     }
+
+    return (
+        <div className="bg-white mt-16">
+            <div>
+                <MobileFilterPanel
+                    mobileFiltersOpen={mobileFiltersOpen}
+                    setMobileFiltersOpen={setMobileFiltersOpen}
+                    handleFilter={handleFilter}
+                />
+
+                <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div 
+                        className="flex items-baseline justify-between border-b border-gray-200 pb-6"
+                    >
+                        <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+                            All Products
+                        </h1>
+                        <div className="flex items-center">
+                            <SortFunctionality handleSort={handleSort} />
+                            <ViewGrid />
+                            <FunnelFilteringButton setMobileFiltersOpen={setMobileFiltersOpen} />
+                        </div>
+                    </div>
+
+                    <section aria-labelledby="products-heading" className="pb-24 pt-6">
+                        <h2 id="products-heading" className="sr-only">
+                            Products
+                        </h2>
+
+                        <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+                            {/* Filters */}
+                            <form className="hidden lg:block">
+                                <h3 className="sr-only">Categories</h3>
+                                <DesktopFilters handleFilter={handleFilter} />
+                            </form>
+
+                            {/* Product grid */}
+                            <ProductGrid
+                                products={products}
+                            />
+                        </div>
+                    </section>
+                </main>
+            </div>
+            <Pagination />
+        </div>
+    )
 }
 
 const MobileFilterPanel = ({mobileFiltersOpen, setMobileFiltersOpen, handleFilter}) => {
@@ -284,9 +264,7 @@ const DesktopFilters = ({handleFilter}) => {
     )
 }
 
-{/* status === 'loading' ? <h3>loading...</h3> : */}
-{/* status === 'failed' ? <h3>Error...</h3> : */}
-const ProductGrid = ({status, products}) => {
+const ProductGrid = ({products}) => {
     return (
         <>
             {
