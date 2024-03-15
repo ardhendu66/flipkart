@@ -1,38 +1,67 @@
-import { useState, Fragment } from "react"
+import { useState, Fragment, useEffect, memo } from "react"
+import axios from 'axios'
 import { NavLink } from "react-router-dom"
 import { Dialog, Disclosure, Transition, Menu } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { MinusIcon, PlusIcon, FunnelIcon, StarIcon, ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, Squares2X2Icon } from "@heroicons/react/20/solid"
-import { filters, classNames, sortOptions } from "./productData"
-import { useGetProductsQuery, useFilterProductsQuery } from "../api/apiSlice"
+import { filters, classNames, sortOptions, products } from "./productData"
 
 export default () => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-    const [filter, setFilter] = useState({})
-    let {data: products, isLoading, isError, isSuccess, error } = useGetProductsQuery()
-    let {data: filteredProducts} = useFilterProductsQuery()
+    const [products, setProducts] = useState([])
+    const [filter, setFilter] = useState({brand: [], category: []})
 
-    if(filteredProducts) {
-        products = filteredProducts
-        console.log(filteredProducts)
-    }
+    useEffect(() => {
+        const getAllProducts = async () => {
+            try {
+                const res = await axios.get('http://localhost:3000/products')
+                setProducts(res.data)
+            }
+            catch(err) {
+                console.error(err.message)
+            }
+        }
+        getAllProducts()
+    }, [])
 
     const handleFilter = (filterName, option) => {
-        console.log(event.target.checked)
-        setFilter(prev => ({...prev, ...{[filterName.id]: option.value}}))
-        console.log(filter)
+        if(event.target.checked) {
+            setFilter(prev => {
+                if(filterName.id === 'brand') {
+                    prev.brand.push(option.value)
+                }
+                if(filterName.id === 'category') {
+                    prev.category.push(option.value)
+                }
+                return prev
+            })
+            console.log(`Filter(${new Date().toLocaleTimeString()}): `, filter)
+            let products_List = []
+            products?.map(prod => {
+                if(filter.brand.length) {
+                    for(let i = 0; i < filter.brand.length; i++) {
+                        if(filter.brand[i] === prod.brand) {
+                            products_List.push(prod)
+                        }
+                    }
+                }
+                if(filter.category.length) {
+                    for(let i = 0; i < filter.category.length; i++) {
+                        if(filter.category[i] === prod.category) {
+                            products_List.push(prod)
+                        }
+                    }
+                }
+            })
+            setProducts(product => {
+                return product = Array.from(new Set(products_List))
+            })
+        }
     }
 
     const handleSort = (option) => {
         let newFilter = {...filter, _sort: option.sort,}
         setFilter(newFilter)
-    }
-
-    if(isError) {
-        return <div>{error}</div>
-    }
-    else if(isLoading) {
-        return <div>loading...</div>
     }
 
     return (
