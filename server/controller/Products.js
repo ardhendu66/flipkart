@@ -11,6 +11,10 @@ const getAllProducts = async (req, res) => {
         if(brand) {
             products = await Products.find({brand: brand})
         }
+        if(brand && category) {
+            products = await Products.find({brand: brand, category: category})
+        }
+
         // sorting products
         if(_sort && _order) {
             products = products.sort({[_sort]: _order})
